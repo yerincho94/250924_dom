@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event</title>
+    <style>
+      #memo {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .memo {
+        width: 120px;
+        height: 80px;
+        border: 1px solid black;
+        border-radius: 4px;
+        margin: 8px;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 요소 : onclick 속성을 줘서 js에 실행문을 연결 -->
+    <!-- onclick : 이슈가 있음
+        1. HTML 혼용 : HTML 화면은 디자인 문서이기 때문에, JS 프로그래밍 코딩
+        2. HTML "" <- 속성을 나타냄 , JS '' 사용 : 입력하기 복잡해지는 것도 있고, 로직이 퍼져있게 됨.
+        3. 여러가지의 작동이 들어가야한다면 관리가 어려워짐.
+        그래서 eventListener를 추가해서 함수형태로 관리하겠끔 함.
+     -->
+    <!-- on~ : 이걸 누르면 아래의 실행문을 작동시켜주세요 -> 자체가 하나의 함수 블록 -->
+    <button onclick="console.log('눌러짐')">눌러</button>
+    <button id="btn">눌러눌러!</button>
+    <section>
+      <input type="text" id="name" placeholder="이름을 입력하세요" />
+      <button id="inputBtn">조회</button>
+    </section>
+
+    <section id="memo"></section>
+
+    <script>
+      const btn = document.querySelector("#btn");
+
+      function buttonHandler() {
+        alert("버튼 누름!");
+      }
+
+      const buttonHandler2 = function () {
+        alert("버튼 누름!22");
+        //요소.removeEventListener('이벤트타입', 함수형태)
+        btn.removeEventListener("click", buttonHandler); //삭제
+      };
+
+      //요소.addEventListener('이벤트타입', 함수형태)
+      btn.addEventListener("click", buttonHandler); //함수 실행 X. 함수를 넣음
+      btn.addEventListener("click", buttonHandler2); //2개 이상도 추가 가능
+
+      btn.addEventListener("click", function () {
+        console.log("버튼 누름!33");
+      });
+
+      // 이게 최종적으로 많이 보이는 코드
+      btn.addEventListener("click", () => console.log("버튼 누름!44"));
+
+      //input 값 조회
+      const inputBtn = document.querySelector("#inputBtn");
+      const name = document.querySelector("#name");
+      const memoBox = document.querySelector("#memo");
+
+      inputBtn.addEventListener("click", () => {
+        console.log(name.value); //input값 조회
+        const memoElement = document.createElement("div");
+
+        // memoElement.textContent = name.value;
+        const { value: memoText } = name;
+        memoElement.textContent = memoText;
+        memoElement.classList.add("memo");
+
+        //삭제
+        const remveBtn = document.createElement("button");
+        remveBtn.textContent = "삭제";
+        remveBtn.addEventListener("click", () => {
+          memoElement.remove();
+        });
+        memoElement.append(remveBtn);
+
+        memoBox.append(memoElement);
+      });
+    </script>
+  </body>
+</html>
