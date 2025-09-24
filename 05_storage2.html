@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>문자열</title>
+  </head>
+  <body>
+    <form id="user">
+      name : <input name="name" /> age : <input name="age" />
+      <button>제출</button>
+    </form>
+    <script>
+      const userForm = document.querySelector("#user");
+      const users = [];
+
+      userForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const formData = new FormData(userForm);
+        const user = {
+          name: formData.get("name"),
+          //숫자
+          age: Number(formData.get("age")), //문자열을 숫자로 형변환
+        };
+        console.log(user);
+        users.push(user);
+        console.log(users);
+
+        localStorage.setItem("user", user); //[object Object] <- 이렇게 사용할 수 없어 //JSON을 사용해야 함
+
+        //직렬화 했다.
+        localStorage.setItem("user", JSON.stringify(user)); //{"name":"예랭이","age":"100"}
+
+        //localStorage.setItem("users", users);//[object Object]
+        localStorage.setItem("users", JSON.stringify(users));
+      });
+
+      const user = localStorage.getItem("user");
+      if (user) {
+        const userObj = JSON.parse(user); //{name: "예랭이", age: 2999}
+        //JSON 문자열을 -> JS 객체로 '파싱'한다(해석)한다.
+        console.log(userObj);
+        console.log(JSON.parse(localStorage.getItem("users")));
+      }
+    </script>
+  </body>
+</html>
