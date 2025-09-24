@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DOM Review</title>
+    <style>
+      div {
+        width: 240px;
+        height: 240px;
+        border: 1px solid black;
+      }
+
+      #box {
+        background-color: green;
+      }
+
+      #box2 {
+        background-color: aqua;
+      }
+
+      #box3 {
+        background-color: blue;
+      }
+
+      .orange {
+        color: orange;
+      }
+
+      .margin {
+        margin: 24px;
+      }
+
+      .padding {
+        padding: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="box" class="orange"><strong>box1</strong>box1</div>
+    <div>box2</div>
+    <div class="orange">box3</div>
+    <script>
+      // const box1 = document.getElementById("box"); //AI가 가끔 이렇게 가져와쥼
+      const box1 = document.querySelector("#box"); //맨위에서 부터 찾아서 1개만 가져옴
+      console.log(box1);
+
+      //   const box2 = document.querySelector("div"); //태그 이름
+      const box2 = document.querySelectorAll("div")[1];
+      // 배열 : 0, 1, 2, ..... -1
+      console.log(box2);
+
+      //   const box3 = document.querySelectorAll("div")[2];
+      const box3 = document.querySelectorAll(".orange")[1];
+      console.log(box3.textContent);
+
+      console.log(box1.innerHTML); //내부값 조회 (태그까지 조회)
+      //HTML, CSS, JS 남아있어서 보안 취약점 -> Event -> 사용자 입력. Network 데이터 불러오기
+
+      console.log(box1.innerText); //내부값 조회 :  최종적으로 표시되는 text
+      console.log(box1.textContent); //내부값 조회 (태그 제외) : 노드의 순수 텍스트 (HTML만 처리된 상황) : textContent를 자주 사용함.
+
+      //모든 태그들이 공유하는 속성
+      console.log(box1.getAttribute("id")); // 안전하게 가져오는 방법
+      console.log(box1.id); //.(변수로 표현가능한 이름) -> 중간에 스페이스나 _$ 이외로 표현된 특수문자가 없고, 숫자로 시작하지 않는 문자열
+
+      //class의 경우는  .class 가져올 수 없다.
+      console.log(box1.className);
+      console.log(box1.classList);
+
+      box1.innerHTML = "<h1>box11</h1>";
+      box1.innerText = "<h1>box11</h1>";
+      box1.textContent = "<h1>box11</h1>";
+
+      box2.setAttribute("id", "box2");
+      box3.id = "box3";
+
+      //   box1.className = "margin"; //기존class name을 덮어씌어버림
+      box1.className = "orange margin";
+      box2.classList.add("padding");
+      box3.classList.remove("orange");
+      box1.classList.toggle("margin");
+      box2.classList.toggle("margin");
+
+      //style 적용
+      box1.style.fontSize = "32px"; // style="font-size: 32px;"
+    </script>
+  </body>
+</html>
